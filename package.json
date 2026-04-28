@@ -1,7 +1,7 @@
 {
   "name": "@glosign/sdk",
-  "version": "0.1.0-pre.0",
-  "description": "Pre-publish Glosign Open API SDK scaffold for electronic signature and contract workflows",
+  "version": "0.1.0-beta.0",
+  "description": "Glosign Open API SDK for electronic signature and contract workflows",
   "type": "module",
   "main": "./index.js",
   "types": "./index.d.ts",

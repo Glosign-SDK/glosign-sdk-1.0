@@ -1,6 +1,6 @@
 # Publishing `@glosign/sdk`
 
-This package is currently a pre-publish scaffold. Keep `private: true` until the official npm organization, license, support contact, and live API smoke tests are confirmed.
+This repository is the standalone pre-publish scaffold for the future official Glosign SDK package. Keep `private: true` until the official npm organization, license, support contact, and live API smoke tests are confirmed.
 
 ## Required decisions
 

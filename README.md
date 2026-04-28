@@ -1,10 +1,10 @@
 # Glosign SDK Scaffold
 
-This directory is a local pre-publish scaffold for the future official Glosign SDK and CLI.
+This repository is the standalone pre-publish scaffold for the future official Glosign SDK and CLI.
 
 ## Current status
 
-- package shape exists in-repo
+- package shape exists in this repository
 - SDK client methods exist for the core Glosign workflows
 - `glosign-init` exists as a local scaffold command
 - this package is not yet published to npm
@@ -38,7 +38,7 @@ Before implementation, confirm:
 
 Do not assume separate test and production keys unless official Glosign docs confirm that model.
 
-## Local usage in this repo
+## Local usage in this repository
 
 ### SDK
 
