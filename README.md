@@ -154,6 +154,30 @@ Document upload alone does not prove that signing fields were placed correctly. 
 
 Template lookup exists through `GET /template/list`, `GET /template/list/company`, and `GET /template`. Those APIs can help confirm which fields are already present. The current public Open API snapshot does not clearly expose an API for creating and saving new signature/stamp fields by arbitrary PDF `x/y` coordinates.
 
+If the user cannot see `templateId` in the Glosign UI, use the bundled CLI:
+
+```bash
+GLOSIGN_API_KEY=... npx glosign-templates
+```
+
+That command queries `GET /template/list` with a default one-year date range and prints:
+
+- `templateId`
+- title
+- state
+- receiver count
+- updated time
+
+Optional filters:
+
+```bash
+GLOSIGN_API_KEY=... npx glosign-templates --query "api 테스트"
+GLOSIGN_API_KEY=... npx glosign-templates --from 20260101 --to 20261231
+GLOSIGN_API_KEY=... npx glosign-templates --json
+```
+
+Use the selected `templateId` as `GLOSIGN_TEMPLATE_ID` for smoke tests and send flows.
+
 If no prepared template exists, the fastest product-UI fallback is the authenticated template upload page:
 
 - `https://glosign.com/templates/upload`
@@ -203,6 +227,12 @@ That generates:
 - `.env.example`
 - `glosign.client.mjs` as a standalone wrapper that does not depend on a published package
 - `README.glosign.md`
+
+Template discovery CLI:
+
+```bash
+GLOSIGN_API_KEY=... node ./bin/glosign-templates.js
+```
 
 ## Future published shape
 

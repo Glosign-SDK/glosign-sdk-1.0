@@ -20,7 +20,8 @@
     }
   },
   "bin": {
-    "glosign-init": "./bin/glosign-init.js"
+    "glosign-init": "./bin/glosign-init.js",
+    "glosign-templates": "./bin/glosign-templates.js"
   },
   "scripts": {
     "smoke:check": "node ./scripts/smoke-check.mjs",
