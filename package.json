@@ -1,0 +1,68 @@
+{
+  "name": "@glosign/sdk",
+  "version": "0.1.0-pre.0",
+  "description": "Pre-publish Glosign Open API SDK scaffold for electronic signature and contract workflows",
+  "type": "module",
+  "main": "./index.js",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.js"
+    },
+    "./client": {
+      "types": "./client.d.ts",
+      "import": "./client.js"
+    },
+    "./heuristics": {
+      "types": "./heuristics.d.ts",
+      "import": "./heuristics.js"
+    }
+  },
+  "bin": {
+    "glosign-init": "./bin/glosign-init.js"
+  },
+  "scripts": {
+    "pack:check": "npm pack --dry-run",
+    "prepublishOnly": "npm run pack:check"
+  },
+  "files": [
+    "client.js",
+    "client.d.ts",
+    "heuristics.js",
+    "heuristics.d.ts",
+    "index.js",
+    "index.d.ts",
+    "bin",
+    "README.md",
+    "PUBLISHING.md"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "UNLICENSED",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/glosign/glosign-sdk-1.0.git"
+  },
+  "homepage": "https://github.com/glosign/glosign-sdk-1.0",
+  "bugs": {
+    "url": "https://github.com/glosign/glosign-sdk-1.0/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "glosign",
+    "electronic-signature",
+    "e-signature",
+    "signature",
+    "contracts",
+    "contract-signing",
+    "signed-pdf",
+    "openapi",
+    "전자서명",
+    "전자계약"
+  ]
+}

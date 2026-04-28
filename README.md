@@ -1,0 +1,212 @@
+# Glosign SDK Scaffold
+
+This directory is a local pre-publish scaffold for the future official Glosign SDK and CLI.
+
+## Current status
+
+- package shape exists in-repo
+- SDK client methods exist for the core Glosign workflows
+- `glosign-init` exists as a local scaffold command
+- this package is not yet published to npm
+
+That distinction matters. Until publication happens, an LLM should not assume that `npm install @glosign/sdk` will succeed on a third-party machine.
+
+## What this is for
+
+This package makes the intended integration path explicit:
+
+- `createGlosignClient(...)` from `./client.js`
+- `getGlosignPreflightChecklist(...)` from `./heuristics.js`
+- `glosign-init`
+
+That gives coding agents a concrete default instead of falling back to a custom signature engine.
+
+The package root still re-exports both for convenience, but the preferred public surface is split:
+
+- `@glosign/sdk/client`
+- `@glosign/sdk/heuristics`
+
+## Access preflight
+
+Before implementation, confirm:
+
+1. Glosign business account exists
+2. API key was issued
+3. Glosign support switched the account to test mode
+4. Required IDs such as `templateId`, `clientId`, or `companyCode` are available
+5. The prepared template has at least one `sign` or `stamp` field before send
+
+Do not assume separate test and production keys unless official Glosign docs confirm that model.
+
+## Local usage in this repo
+
+### SDK
+
+```js
+import { createGlosignClient } from "./client.js";
+import { getGlosignPreflightChecklist } from "./heuristics.js";
+
+const checklist = getGlosignPreflightChecklist({
+  businessAccount: true,
+  apiKey: process.env.GLOSIGN_API_KEY,
+  testModeEnabled: true,
+  requiresTemplateId: true,
+  templateId: process.env.GLOSIGN_TEMPLATE_ID
+});
+
+if (!checklist.ready) {
+  throw new Error("Glosign access is not ready yet.");
+}
+
+const client = createGlosignClient({
+  apiKey: process.env.GLOSIGN_API_KEY
+});
+
+const user = await client.getUser();
+console.log(user);
+```
+
+### Minimal remote signing
+
+For the first real send test, prefer general remote signing with one receiver:
+
+```js
+await client.sendTemplateContract({
+  templateId: process.env.GLOSIGN_TEMPLATE_ID,
+  contractName: "Glosign API smoke test",
+  commonMessage: "Please review and sign.",
+  emailFlag: true,
+  mobileFlag: false,
+  contractList: [
+    {
+      signOrder: false,
+      isReview: false,
+      contractName: "Glosign API smoke test",
+      receiverList: [
+        {
+          signOrderNumber: 1,
+          name: "Receiver",
+          email: "receiver@example.com",
+          lang: "kr",
+          expired_day: 1,
+          message: "Please review and sign.",
+          coord: []
+        }
+      ]
+    }
+  ]
+});
+```
+
+Email is the default delivery path. If mobile delivery is enabled, provide `userPhone` and `userPhoneCode` for every receiver. Glosign's product behavior is KakaoTalk by default for mobile delivery; SMS requires a separate option whose OpenAPI payload flag still needs confirmation.
+
+Minimum email-only send inputs:
+
+- REST API Access token
+- prepared `templateId`
+- contract title
+- signer email
+- at least one prepared `sign` or `stamp` field in the template
+- explicit send confirmation in the calling app
+
+Glosign handles notification delivery, hosted signer signing, signature/stamp capture, server-side storage, and completed output. The integrating app should retrieve status with `GET /contract` and completed files with `GET /docs/contract/download`.
+
+Verify one complete cycle before adding advanced options:
+
+1. create one 일반 비대면서명 request
+2. have the signer receive and complete signing through Glosign
+3. retrieve completed status and output through the Open API
+
+Do not treat a successful send response alone as full verification.
+
+### Template document upload
+
+`POST /template/temp/create` is exposed as:
+
+```js
+import { readFile } from "node:fs/promises";
+import { createGlosignClient } from "./client.js";
+
+const client = createGlosignClient({
+  apiKey: process.env.GLOSIGN_API_KEY
+});
+
+const uploaded = await client.uploadTemplateDocument({
+  file: await readFile("examples/assets/glosign-smoke-test-contract.pdf"),
+  fileName: "glosign-smoke-test-contract.pdf",
+  templateTitle: "Glosign API smoke test"
+});
+
+console.log(uploaded);
+```
+
+Document upload alone does not prove that signing fields were placed correctly. For a reliable first send, use a template that already has one signature or stamp field for each receiver, ideally on page 1 center for the smoke test.
+
+Template lookup exists through `GET /template/list`, `GET /template/list/company`, and `GET /template`. Those APIs can help confirm which fields are already present. The current public Open API snapshot does not clearly expose an API for creating and saving new signature/stamp fields by arbitrary PDF `x/y` coordinates.
+
+If no prepared template exists, the fastest product-UI fallback is the authenticated template upload page:
+
+- `https://glosign.com/templates/upload`
+
+The user should log in, upload a test PDF, place one `sign` or `stamp` field, save the template, and provide the resulting `templateId`.
+
+`POST /template/send` supports `coord`, but treat it as data binding for existing template fields:
+
+```js
+coord: [
+  {
+    id: "text_0_0",
+    data: "Receiver name",
+    tagKey: "name",
+    tagValue: "name"
+  }
+]
+```
+
+Do not use `coord` as a confirmed field-placement API until the exact Glosign payload is verified.
+
+For field types and flow-specific required values, use [template-field-guide.md](../../docs/ai/template-field-guide.md).
+
+### Frontend send wizard
+
+For browser-facing send screens, use [frontend-send-flow.md](../../docs/ai/frontend-send-flow.md).
+
+It documents the public wizard flow:
+
+1. signing type
+2. document selection
+3. basic information
+4. participants
+5. field configuration
+6. preview and send confirmation
+
+The guide is intentionally limited to UX flow, validation, and API mapping. Do not copy Glosign product source or internal coordinate conversion code into public examples.
+
+### CLI
+
+```bash
+node sdk/bin/glosign-init.js --dir /tmp/glosign-starter
+```
+
+That generates:
+
+- `.env.example`
+- `glosign.client.mjs` as a standalone wrapper that does not depend on a published package
+- `README.glosign.md`
+
+## Future published shape
+
+After publication, the intended external usage is:
+
+```bash
+npm install @glosign/sdk
+npx glosign-init
+```
+
+Until then, external docs should describe this as a target install path, not an already-public package.
+
+## Publication preparation
+
+Before publishing, use [PUBLISHING.md](./PUBLISHING.md) and [npm-github-publication-checklist.md](../../docs/publication/npm-github-publication-checklist.md).
+
+Keep `private: true` until package ownership, license, support contact, and live API smoke tests are confirmed.
