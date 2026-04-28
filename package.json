@@ -36,13 +36,14 @@
     "index.js",
     "index.d.ts",
     "bin",
+    "LICENSE",
     "README.md",
     "PUBLISHING.md"
   ],
   "engines": {
     "node": ">=18"
   },
-  "license": "UNLICENSED",
+  "license": "MIT",
   "private": true,
   "repository": {
     "type": "git",

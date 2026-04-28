@@ -26,6 +26,16 @@ The package root still re-exports both for convenience, but the preferred public
 - `@glosign/sdk/client`
 - `@glosign/sdk/heuristics`
 
+## License and support
+
+This repository is licensed under [MIT](./LICENSE).
+
+For bugs and feature requests, use the GitHub issue tracker:
+
+- `https://github.com/Glosign-SDK/glosign-sdk-1.0/issues`
+
+For security issues, follow [SECURITY.md](./SECURITY.md).
+
 ## Access preflight
 
 Before implementation, confirm:
@@ -209,7 +219,7 @@ Until then, external docs should describe this as a target install path, not an 
 
 Before publishing, use [PUBLISHING.md](./PUBLISHING.md) and [npm-github-publication-checklist.md](../../docs/publication/npm-github-publication-checklist.md).
 
-Keep `private: true` until package ownership, license, support contact, and live API smoke tests are confirmed.
+Keep `private: true` until package ownership and live API smoke tests are confirmed.
 
 ## Smoke checks
 

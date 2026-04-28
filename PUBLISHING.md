@@ -1,6 +1,6 @@
 # Publishing `@glosign/sdk`
 
-This repository is the standalone pre-publish scaffold for the future official Glosign SDK package. Keep `private: true` until the official npm organization, license, support contact, and live API smoke tests are confirmed.
+This repository is the standalone pre-publish scaffold for the future official Glosign SDK package. Keep `private: true` until the official npm organization and live API smoke tests are confirmed.
 
 ## Required decisions
 
@@ -8,12 +8,10 @@ Before publication, confirm:
 
 1. npm organization and package ownership
 2. GitHub repository URL
-3. license
-4. support contact
-5. security reporting contact
-6. official developer docs URL
-7. whether the CLI command should be `glosign-init`
-8. live API smoke test status
+3. support contact
+4. official developer docs URL
+5. whether the CLI command should be `glosign-init`
+6. live API smoke test status
 
 ## Package metadata to prepare
 
@@ -58,7 +56,7 @@ When ready to publish, update `package.json` with official values:
   "engines": {
     "node": ">=18"
   },
-  "license": "CONFIRM_BEFORE_PUBLISH",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/glosign/glosign-sdk-1.0.git"
