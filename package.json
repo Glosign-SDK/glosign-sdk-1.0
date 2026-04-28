@@ -29,7 +29,7 @@
     "smoke:check": "node ./scripts/smoke-check.mjs",
     "pack:check": "node ./scripts/pack-check.mjs",
     "release:check": "npm run smoke:check && npm run pack:check",
-    "prepublishOnly": "npm run pack:check"
+    "prepublishOnly": "npm run release:check"
   },
   "files": [
     "client.js",
@@ -41,13 +41,14 @@
     "bin",
     "LICENSE",
     "README.md",
-    "PUBLISHING.md"
+    "PUBLISHING.md",
+    "SECURITY.md",
+    "scripts"
   ],
   "engines": {
     "node": ">=18"
   },
   "license": "MIT",
-  "private": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/glosign/glosign-sdk-1.0.git"

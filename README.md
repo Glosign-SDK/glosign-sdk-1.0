@@ -199,13 +199,11 @@ coord: [
 
 Do not use `coord` as a confirmed field-placement API until the exact Glosign payload is verified.
 
-For field types and flow-specific required values, use [template-field-guide.md](../../docs/ai/template-field-guide.md).
+Field types confirmed from the public API snapshot include `sign`, `stamp`, `text`, `check`, `drop`, `image`, `hand`, and `date`.
 
 ### Frontend send wizard
 
-For browser-facing send screens, use [frontend-send-flow.md](../../docs/ai/frontend-send-flow.md).
-
-It documents the public wizard flow:
+For browser-facing send screens, the public wizard flow should cover:
 
 1. signing type
 2. document selection
@@ -214,7 +212,7 @@ It documents the public wizard flow:
 5. field configuration
 6. preview and send confirmation
 
-The guide is intentionally limited to UX flow, validation, and API mapping. Do not copy Glosign product source or internal coordinate conversion code into public examples.
+Keep public examples limited to UX flow, validation, and API mapping. Do not copy Glosign product source or internal coordinate conversion code into public examples.
 
 ### CLI
 
@@ -247,9 +245,7 @@ Until then, external docs should describe this as a target install path, not an 
 
 ## Publication preparation
 
-Before publishing, use [PUBLISHING.md](./PUBLISHING.md) and [npm-github-publication-checklist.md](../../docs/publication/npm-github-publication-checklist.md).
-
-Keep `private: true` until package ownership and live API smoke tests are confirmed.
+Before publishing, use [PUBLISHING.md](./PUBLISHING.md).
 
 ## Smoke checks
 
