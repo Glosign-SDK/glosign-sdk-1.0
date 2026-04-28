@@ -22,7 +22,8 @@
   "bin": {
     "glosign-init": "./bin/glosign-init.js",
     "glosign-templates": "./bin/glosign-templates.js",
-    "glosign-contracts": "./bin/glosign-contracts.js"
+    "glosign-contracts": "./bin/glosign-contracts.js",
+    "glosign-download": "./bin/glosign-download.js"
   },
   "scripts": {
     "smoke:check": "node ./scripts/smoke-check.mjs",
