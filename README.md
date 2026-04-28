@@ -279,3 +279,27 @@ The live path performs:
 4. `GET /contract`
 5. `GET /contract/sign/info`
 6. `GET /docs/contract/download`
+
+## Contract status checks
+
+If you already have a `contractId`, inspect the current state with:
+
+```bash
+GLOSIGN_API_KEY=... npx glosign-contracts --id ef7367d29fe37f959beb7aa9e1bd46cc97f736c1792167b200c3bea4a9eca41f
+```
+
+Add `--sign-info` to include the signer-completion payload when available:
+
+```bash
+GLOSIGN_API_KEY=... npx glosign-contracts --id ef7367d29fe37f959beb7aa9e1bd46cc97f736c1792167b200c3bea4a9eca41f --sign-info
+```
+
+To list recent contracts when the user does not know the `contractId`:
+
+```bash
+GLOSIGN_API_KEY=... npx glosign-contracts
+GLOSIGN_API_KEY=... npx glosign-contracts --query "Glosign SDK smoke test"
+GLOSIGN_API_KEY=... npx glosign-contracts --from 20260401 --to 20260430
+```
+
+The command prints contract ID, title, status, type, and update time so the user can pick one contract and inspect it in detail.
