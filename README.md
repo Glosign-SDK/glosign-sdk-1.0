@@ -210,3 +210,32 @@ Until then, external docs should describe this as a target install path, not an 
 Before publishing, use [PUBLISHING.md](./PUBLISHING.md) and [npm-github-publication-checklist.md](../../docs/publication/npm-github-publication-checklist.md).
 
 Keep `private: true` until package ownership, license, support contact, and live API smoke tests are confirmed.
+
+## Smoke checks
+
+Use the repo-local smoke checker before a release candidate:
+
+```bash
+npm run smoke:check
+```
+
+That verifies the public API surface without making a network call.
+
+To run the live flow, provide the required environment variables and enable live mode:
+
+```bash
+GLOSIGN_SMOKE_LIVE=true \
+GLOSIGN_API_KEY=... \
+GLOSIGN_TEMPLATE_ID=... \
+GLOSIGN_SMOKE_SIGNER1_EMAIL=receiver@example.com \
+npm run smoke:check -- --live --wait-complete
+```
+
+The live path performs:
+
+1. `GET /user`
+2. `GET /template`
+3. `POST /template/send`
+4. `GET /contract`
+5. `GET /contract/sign/info`
+6. `GET /docs/contract/download`

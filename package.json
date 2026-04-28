@@ -23,6 +23,7 @@
     "glosign-init": "./bin/glosign-init.js"
   },
   "scripts": {
+    "smoke:check": "node ./scripts/smoke-check.mjs",
     "pack:check": "npm pack --dry-run",
     "prepublishOnly": "npm run pack:check"
   },

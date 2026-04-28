@@ -83,6 +83,12 @@ From this directory:
 npm pack --dry-run
 ```
 
+For a local smoke check before release:
+
+```bash
+npm run smoke:check
+```
+
 Confirm the package includes only:
 
 - `client.js`
