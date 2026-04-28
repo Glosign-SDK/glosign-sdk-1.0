@@ -1,6 +1,6 @@
 {
   "name": "@glosign/sdk",
-  "version": "0.1.0-beta.0",
+  "version": "0.1.0-beta.1",
   "description": "Glosign Open API SDK for electronic signature and contract workflows",
   "type": "module",
   "main": "./index.js",
@@ -20,10 +20,10 @@
     }
   },
   "bin": {
-    "glosign-init": "./bin/glosign-init.js",
-    "glosign-templates": "./bin/glosign-templates.js",
-    "glosign-contracts": "./bin/glosign-contracts.js",
-    "glosign-download": "./bin/glosign-download.js"
+    "glosign-init": "bin/glosign-init.js",
+    "glosign-templates": "bin/glosign-templates.js",
+    "glosign-contracts": "bin/glosign-contracts.js",
+    "glosign-download": "bin/glosign-download.js"
   },
   "scripts": {
     "smoke:check": "node ./scripts/smoke-check.mjs",
@@ -51,11 +51,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/glosign/glosign-sdk-1.0.git"
+    "url": "git+https://github.com/Glosign-SDK/glosign-sdk-1.0.git"
   },
-  "homepage": "https://github.com/glosign/glosign-sdk-1.0",
+  "homepage": "https://github.com/Glosign-SDK/glosign-sdk-1.0",
   "bugs": {
-    "url": "https://github.com/glosign/glosign-sdk-1.0/issues"
+    "url": "https://github.com/Glosign-SDK/glosign-sdk-1.0/issues"
   },
   "publishConfig": {
     "access": "public"

@@ -1,10 +1,10 @@
 # Publishing `@glosign/sdk`
 
-This repository is the standalone pre-publish scaffold for the future official Glosign SDK package. Publish only after the official npm organization access and live API smoke tests are confirmed.
+This repository is the standalone Glosign SDK package. `@glosign/sdk@0.1.0-beta.0` has been published to npm; future releases should keep package metadata, smoke checks, and GitHub links aligned before publishing.
 
 ## Required decisions
 
-Before publication, confirm:
+Before stable publication, confirm:
 
 1. npm organization and package ownership
 2. GitHub repository URL
@@ -20,7 +20,7 @@ When ready to publish, update `package.json` with official values:
 ```json
 {
   "name": "@glosign/sdk",
-  "version": "0.1.0-beta.0",
+  "version": "0.1.0-beta.1",
   "description": "Glosign Open API SDK for electronic signature and contract workflows",
   "type": "module",
   "main": "./index.js",
@@ -40,7 +40,10 @@ When ready to publish, update `package.json` with official values:
     }
   },
   "bin": {
-    "glosign-init": "./bin/glosign-init.js"
+    "glosign-init": "bin/glosign-init.js",
+    "glosign-templates": "bin/glosign-templates.js",
+    "glosign-contracts": "bin/glosign-contracts.js",
+    "glosign-download": "bin/glosign-download.js"
   },
   "files": [
     "client.js",
@@ -50,8 +53,11 @@ When ready to publish, update `package.json` with official values:
     "index.js",
     "index.d.ts",
     "bin",
+    "LICENSE",
     "README.md",
-    "PUBLISHING.md"
+    "PUBLISHING.md",
+    "SECURITY.md",
+    "scripts"
   ],
   "engines": {
     "node": ">=18"
@@ -59,11 +65,11 @@ When ready to publish, update `package.json` with official values:
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/glosign/glosign-sdk-1.0.git"
+    "url": "git+https://github.com/Glosign-SDK/glosign-sdk-1.0.git"
   },
-  "homepage": "https://github.com/glosign/glosign-sdk-1.0",
+  "homepage": "https://github.com/Glosign-SDK/glosign-sdk-1.0",
   "bugs": {
-    "url": "https://github.com/glosign/glosign-sdk-1.0/issues"
+    "url": "https://github.com/Glosign-SDK/glosign-sdk-1.0/issues"
   },
   "publishConfig": {
     "access": "public"
@@ -96,8 +102,15 @@ Confirm the package includes only:
 - `index.js`
 - `index.d.ts`
 - `bin/glosign-init.js`
+- `bin/glosign-templates.js`
+- `bin/glosign-contracts.js`
+- `bin/glosign-download.js`
+- `LICENSE`
 - `README.md`
 - `PUBLISHING.md`
+- `SECURITY.md`
+- `scripts/pack-check.mjs`
+- `scripts/smoke-check.mjs`
 - `package.json`
 
 ## Beta release checklist

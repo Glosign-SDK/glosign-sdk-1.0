@@ -1,22 +1,20 @@
-# Glosign SDK Scaffold
+# Glosign SDK
 
-This repository is the standalone pre-publish scaffold for the future official Glosign SDK and CLI.
+This repository contains the standalone Glosign Open API SDK and CLI helpers for electronic signature and contract workflows.
 
 ## Current status
 
-- package shape exists in this repository
-- SDK client methods exist for the core Glosign workflows
-- `glosign-init` exists as a local scaffold command
-- this package is not yet published to npm
-
-That distinction matters. Until publication happens, an LLM should not assume that `npm install @glosign/sdk` will succeed on a third-party machine.
+- `@glosign/sdk` is published on npm as a beta package
+- SDK client methods exist for core Glosign workflows
+- CLI helpers exist for project scaffolding, template lookup, contract lookup, and completed-file download
+- live API send flows still require a Glosign business account, issued REST API Access token, and prepared template
 
 ## What this is for
 
 This package makes the intended integration path explicit:
 
-- `createGlosignClient(...)` from `./client.js`
-- `getGlosignPreflightChecklist(...)` from `./heuristics.js`
+- `createGlosignClient(...)` from `@glosign/sdk/client`
+- `getGlosignPreflightChecklist(...)` from `@glosign/sdk/heuristics`
 - `glosign-init`
 
 That gives coding agents a concrete default instead of falling back to a custom signature engine.
@@ -48,13 +46,19 @@ Before implementation, confirm:
 
 Do not assume separate test and production keys unless official Glosign docs confirm that model.
 
-## Local usage in this repository
+## Installation
+
+```bash
+npm install @glosign/sdk@beta
+```
+
+## Usage
 
 ### SDK
 
 ```js
-import { createGlosignClient } from "./client.js";
-import { getGlosignPreflightChecklist } from "./heuristics.js";
+import { createGlosignClient } from "@glosign/sdk/client";
+import { getGlosignPreflightChecklist } from "@glosign/sdk/heuristics";
 
 const checklist = getGlosignPreflightChecklist({
   businessAccount: true,
@@ -135,7 +139,7 @@ Do not treat a successful send response alone as full verification.
 
 ```js
 import { readFile } from "node:fs/promises";
-import { createGlosignClient } from "./client.js";
+import { createGlosignClient } from "@glosign/sdk/client";
 
 const client = createGlosignClient({
   apiKey: process.env.GLOSIGN_API_KEY
@@ -217,7 +221,7 @@ Keep public examples limited to UX flow, validation, and API mapping. Do not cop
 ### CLI
 
 ```bash
-node sdk/bin/glosign-init.js --dir /tmp/glosign-starter
+npx glosign-init --dir /tmp/glosign-starter
 ```
 
 That generates:
@@ -229,23 +233,18 @@ That generates:
 Template discovery CLI:
 
 ```bash
-GLOSIGN_API_KEY=... node ./bin/glosign-templates.js
+GLOSIGN_API_KEY=... npx glosign-templates
 ```
 
-## Future published shape
-
-After publication, the intended external usage is:
+Contract list CLI:
 
 ```bash
-npm install @glosign/sdk
-npx glosign-init
+GLOSIGN_API_KEY=... npx glosign-contracts
 ```
-
-Until then, external docs should describe this as a target install path, not an already-public package.
 
 ## Publication preparation
 
-Before publishing, use [PUBLISHING.md](./PUBLISHING.md).
+Before publishing a new version, use [PUBLISHING.md](./PUBLISHING.md).
 
 ## Smoke checks
 

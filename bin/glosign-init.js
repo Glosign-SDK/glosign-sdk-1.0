@@ -15,8 +15,8 @@ Options:
   --help         Show this message.
 
 Notes:
-  - This is a local pre-publish scaffold inside the repo.
-  - Do not assume @glosign/sdk is already published on npm.
+  - This generates a project-local Glosign starter wrapper.
+  - @glosign/sdk is published on npm as a beta package.
   - Ask the user for a Glosign business account, issued REST API Access token, and test-mode confirmation before coding.
 `);
 }
