@@ -150,6 +150,42 @@ const user = await client.getUser();
 console.log(user);
 ```
 
+## npm authentication notes
+
+Do not commit npm access tokens, browser session data, `.npmrc`, shell history, screenshots, or copied token values.
+
+Current publishing path:
+
+1. Open npm in the browser and confirm the account is signed in.
+2. If CLI publish fails with `E401 Unauthorized`, run `npm login` or generate a granular access token in npm.
+3. The browser token page is `https://www.npmjs.com/settings/<npm-username>/tokens`.
+4. Use a token with publish rights for `@glosign/sdk`.
+5. Confirm CLI auth with:
+
+```bash
+npm whoami
+```
+
+6. Confirm the current published version before publishing:
+
+```bash
+npm view @glosign/sdk version dist-tags --json
+```
+
+7. Publish the next beta:
+
+```bash
+npm publish --access public --tag beta
+```
+
+Observed failure pattern:
+
+- `npm whoami` returned `E401 Unauthorized`
+- `npm publish --access public --tag beta` completed local checks but failed before publishing
+- the package remained at `@glosign/sdk@0.1.0-beta.1`
+
+When using a token non-interactively, set it only in the shell environment for the publish command and do not write it into project files.
+
 ## Stable release checklist
 
 Publish stable only after:
