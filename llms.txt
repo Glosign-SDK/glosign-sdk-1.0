@@ -71,6 +71,14 @@ Required user actions outside the coding project:
 
 Do not list Glosign support-enabled test mode as a required first action. The first smoke test can use the initial free real-send quota. Mention test mode only as an optional later request when the user wants API tests that do not deduct from that quota.
 
+After the user provides `GLOSIGN_API_KEY`, the agent must not branch into advanced design. It must say:
+
+1. "If a template already exists, I will list or inspect it and use it."
+2. "Please provide one signer email address for the first live send test."
+3. "The first priority is 1A. Live send test: send to your own email once, sign in Glosign, verify completion, and download the completed PDF."
+
+1A live send test must happen before B expansion work. B expansion means multiple receivers, sequential signing, and UI refinement.
+
 Minimum first-cycle tasks:
 
 1. install `@glosign/sdk`

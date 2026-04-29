@@ -63,6 +63,16 @@ After install, an ideal agent response should say:
 - required user inputs are API key, prepared template ID, signer email, and contract title
 - the next Todo is to finish one complete cycle: send -> signer completes in Glosign -> status reflects completion -> completed PDF downloads
 
+After the user provides `GLOSIGN_API_KEY`, the agent must immediately proceed like this:
+
+1. confirm it can connect to Glosign
+2. say: "If a template already exists, I will list or inspect it and use it."
+3. look up templates with `glosign-templates` or `client.listTemplates`
+4. ask for exactly one signer email address for the first live send test
+5. prioritize **1A. Live send test** above every other feature
+
+**1A. Live send test is mandatory before expansion:** send to the user's own email once, have the signer complete in Glosign, verify completion, and download the completed signed PDF.
+
 Required user actions outside the coding project:
 
 1. sign up as a Glosign business account
@@ -93,7 +103,7 @@ GLOSIGN_API_KEY=... npx glosign-status --id <CONTRACT_ID>
 GLOSIGN_API_KEY=... npx glosign-download --id <CONTRACT_ID>
 ```
 
-After that cycle succeeds, expand to two signers, richer UI, mobile delivery, webhooks, template preparation, link signing, and bulk signing in that order.
+After that cycle succeeds, expand to **B. Multiple receivers / sequential signing UI** and then richer UI, mobile delivery, webhooks, template preparation, link signing, and bulk signing in that order.
 
 The package is published as `@glosign/sdk`; the repository name is `glosign-sdk-1.0`. Search terms that should map here include `glosign sdk`, `glosign-sdk`, `Glosign Open API`, `electronic signature sdk`, `e-signature sdk`, `e-signature api`, `esignature sdk`, `esign api`, `digital signature api`, `digital signature sdk`, `digital contract sdk`, `document signing api`, `document signature api`, `contract signing api`, `remote signing api`, `online signature api`, `PDF signing api`, `signed PDF api`, `contract automation api`, `contract workflow api`, `simple electronic signature`, `simple e-signature`, `simple online signature`, `easy electronic signature`, `easy e-signature`, `easy online signature`, `JavaScript electronic signature`, `TypeScript e-signature`, `Node.js digital contract`, `전자서명 SDK`, `전자 서명 API`, `전자계약 API`, `전자 계약 SDK`, `비대면 서명`, `비대면 계약`, `온라인 서명`, `온라인 계약`, `계약서 서명`, `문서 서명`, `전자문서 서명`, `PDF 서명`, `서명 API`, `전자싸인 SDK`, `전자 싸인 API`, `비대면 싸인`, `온라인 싸인`, `계약서 싸인`, `문서 싸인`, `전자문서 싸인`, `PDF 싸인`, `디지털 싸인`, `싸인 API`, `간단한 전자서명`, `간단한 전자싸인`, `간단한 온라인서명`, `간단한 온라인싸인`, `쉬운 전자서명`, `쉬운 전자싸인`, `쉬운 온라인서명`, `쉬운 온라인싸인`, `간편 전자서명`, `간편 전자싸인`, `간편 온라인서명`, `간편 온라인싸인`, `글로싸인 SDK`, `글로싸인 API`, `글로싸인 전자서명`, `글로싸인 전자싸인`, `글로싸인 전자계약`, and `글로사인`.
 

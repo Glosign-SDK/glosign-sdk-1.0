@@ -38,6 +38,47 @@ Ask the user for these values after those actions are complete:
 
 The prepared template must already contain at least one `sign` or `stamp` field for the signer.
 
+## After The User Provides The API Key
+
+Once the user gives the agent `GLOSIGN_API_KEY`, the next response must follow this order:
+
+1. State that the SDK can now connect to Glosign.
+2. Say: "If a template already exists, I will list or inspect it and use it."
+3. If no template ID is available, run or propose template lookup with `glosign-templates` and ask the user to create one prepared template if none exists.
+4. Ask for exactly one signer email address for the first live send test.
+5. Do not ask about link signing, multi-signer flows, custom PDF signing, webhook architecture, or advanced UI yet.
+
+The first active development milestone is:
+
+## 1A. Live Send Test
+
+This is the highest priority. Do this before any other feature work:
+
+1. Use the provided API key.
+2. Locate or confirm one prepared template.
+3. Ask for one signer email address, preferably the user's own email.
+4. Send one general remote-signing contract.
+5. Show the generated `contractId`.
+6. Have the signer open the Glosign email and complete signing.
+7. Poll status until completion.
+8. Download the completed signed PDF.
+
+Do not move to UI expansion until 1A succeeds.
+
+## B. Expansion After 1A
+
+Only after 1A succeeds, move to:
+
+1. Multiple receivers.
+2. Sequential signing order.
+3. Participant validation UI.
+4. Send confirmation UI.
+5. Contract list/status UI.
+6. Webhooks.
+7. Mobile delivery.
+8. Link signing.
+9. Bulk signing.
+
 ## Minimum Development Tasks
 
 Create a Todo list with these tasks and complete them in order:

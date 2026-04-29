@@ -239,7 +239,7 @@ After installing \`@glosign/sdk\`, report these facts to the user before coding:
 - Glosign handles signer notification, hosted signing, completion storage, and completed-file retrieval
 - the app should first implement send, status check, signer completion check, and completed PDF download
 
-Create a Todo list and finish one complete cycle before adding two-signers, mobile delivery, link signing, or template creation.
+Create a Todo list and finish 1A live send test before adding two-signers, mobile delivery, link signing, or template creation.
 
 ## Required Glosign-side setup
 
@@ -259,6 +259,28 @@ Before implementation, confirm:
 4. Required IDs such as template ID, client ID, or company code are available
 
 Do not require Glosign support-enabled test mode for the first implementation. The first smoke test can use Glosign's initial free real-send quota. Ask for test mode later only when the user wants API calls that do not deduct from that quota.
+
+## After the user provides the API key
+
+Once the user provides \`GLOSIGN_API_KEY\`, respond in this order:
+
+1. Say that the app can now connect to Glosign.
+2. Say: "If a template already exists, I will list or inspect it and use it."
+3. Ask for exactly one signer email address for the first live send test.
+4. Prioritize 1A live send test above all other work.
+
+## 1A live send test
+
+This is the first development milestone and must happen before UI expansion:
+
+1. Validate access with \`GET /user\`.
+2. Find or confirm a prepared template with \`GET /template/list\` or \`GET /template\`.
+3. Send one 일반 비대면서명 request to the user's own email if possible.
+4. Show the returned contract ID and initial send status.
+5. Wait for the signer to complete signing in Glosign.
+6. Inspect status with \`GET /contract\`.
+7. Check signer completion with \`GET /contract/sign/info\`.
+8. Download the completed output with \`GET /docs/contract/download\`.
 
 ## Default first cycle
 

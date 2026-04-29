@@ -53,6 +53,15 @@ The first external-user objective is to make the user complete these Glosign-sid
 
 Do not tell the user that Glosign support must enable test mode before the first implementation. The first smoke test can use the initial free real-send quota. Mention support-enabled test mode only as an optional later step when the user wants API tests that do not deduct from that quota.
 
+When the user provides `GLOSIGN_API_KEY`, the next agent action is not architecture brainstorming. The agent should:
+
+1. confirm it will connect to Glosign
+2. say that if a template exists, it will list/inspect and use it
+3. ask for one signer email address
+4. prioritize `1A. Live send test`
+
+`1A. Live send test` means: send one general remote-signing request to the user's own email, complete signing in Glosign, confirm completion status, and download the completed signed PDF. This must happen before `B. Multiple receivers / sequential signing UI`.
+
 The first cycle is successful only after the completed signed PDF is retrieved. A successful send response is not enough.
 
 After that success, expand in this order:
