@@ -166,6 +166,17 @@ Current publishing path:
 6. Do not use a token that only targets the personal account if the package is intended to be owned by the Glosign npm organization.
 7. Confirm CLI auth with:
 
+Known working granular token settings for beta publish:
+
+- Packages and scopes permissions: `Read and write`
+- Package selection: `Only select packages and scopes`
+- Selected package/scope: `glosign`
+- Organization permissions: `Read and write`
+- Selected organization: `glosign`
+- 2FA bypass: only enable when needed for one-time local publishing, then revoke the token after use
+
+Do not record the token value itself.
+
 ```bash
 npm whoami
 ```
