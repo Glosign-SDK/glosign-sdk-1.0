@@ -240,7 +240,7 @@ function buildReadme() {
 
 After installing \`@glosign/sdk\`, report these facts to the user before coding:
 
-- the SDK is installed and requires Node.js 18+ ESM or dynamic import
+- the SDK is installed and supports Node.js 18+ ESM and CommonJS
 - the first supported implementation is one-signer general remote signing by email
 - the user must complete Glosign business signup, API key issuance, and template creation
 - Glosign handles signer notification, hosted signing, completion storage, and completed-file retrieval

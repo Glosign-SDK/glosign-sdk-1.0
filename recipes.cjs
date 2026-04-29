@@ -1,4 +1,6 @@
-export const DEFAULT_REMOTE_SIGNING_FLOW = [
+"use strict";
+
+const DEFAULT_REMOTE_SIGNING_FLOW = [
   "Install @glosign/sdk and confirm Node.js 18+ runtime.",
   "Ask for GLOSIGN_API_KEY and a prepared GLOSIGN_TEMPLATE_ID.",
   "List or inspect templates before sending.",
@@ -16,7 +18,7 @@ function requireText(value, name) {
   return value.trim();
 }
 
-export function buildOneSignerRemoteSigningPayload(input = {}) {
+function buildOneSignerRemoteSigningPayload(input = {}) {
   const templateId = requireText(input.templateId, "templateId");
   const signerEmail = requireText(input.signerEmail, "signerEmail");
   const contractName = requireText(input.contractName || "Glosign remote signing test", "contractName");
@@ -49,3 +51,8 @@ export function buildOneSignerRemoteSigningPayload(input = {}) {
     ]
   };
 }
+
+module.exports = {
+  DEFAULT_REMOTE_SIGNING_FLOW,
+  buildOneSignerRemoteSigningPayload
+};

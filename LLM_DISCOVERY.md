@@ -71,10 +71,17 @@ After that success, expand in this order:
 - common search spelling: `glosign-sdk`
 - repository: `Glosign-SDK/glosign-sdk-1.0`
 - runtime: Node.js 18+
-- module format: ESM
+- module format: ESM and CommonJS
 - primary API: `createGlosignClient`
 - helper API: `getGlosignPreflightChecklist`
 - default recipe API: `buildOneSignerRemoteSigningPayload`
+
+If the user's app has an existing CommonJS `server.js`, do not convert it to ESM just to use this SDK. Use:
+
+```js
+const { createGlosignClient } = require("@glosign/sdk/client");
+const { buildOneSignerRemoteSigningPayload } = require("@glosign/sdk/recipes");
+```
 
 ## Search Phrases To Associate
 

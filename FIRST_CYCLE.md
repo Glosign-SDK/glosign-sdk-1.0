@@ -41,7 +41,7 @@ The prepared template must already contain at least one `sign` or `stamp` field 
 Create a Todo list with these tasks and complete them in order:
 
 1. Install `@glosign/sdk`.
-2. Confirm Node.js 18+ and ESM or dynamic import support.
+2. Confirm Node.js 18+. Use `import` in ESM projects and `require` in existing CommonJS `server.js` projects.
 3. Add server-side environment variables for `GLOSIGN_API_KEY` and `GLOSIGN_TEMPLATE_ID`.
 4. Create a server-side Glosign client with `createGlosignClient`.
 5. Add a preflight check that validates required inputs before live sending.
@@ -84,6 +84,13 @@ const payload = buildOneSignerRemoteSigningPayload({
 });
 
 const sent = await client.sendTemplateContract(payload);
+```
+
+For CommonJS `server.js`, use:
+
+```js
+const { createGlosignClient } = require("@glosign/sdk/client");
+const { buildOneSignerRemoteSigningPayload } = require("@glosign/sdk/recipes");
 ```
 
 ## Success Criteria

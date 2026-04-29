@@ -32,6 +32,13 @@ const client = createGlosignClient({
 });
 ```
 
+CommonJS `server.js` is supported. Do not convert an existing CommonJS app to ESM just to use this SDK:
+
+```js
+const { createGlosignClient } = require("@glosign/sdk/client");
+const { buildOneSignerRemoteSigningPayload } = require("@glosign/sdk/recipes");
+```
+
 Core API helpers:
 
 - `client.getUser()`
@@ -48,7 +55,7 @@ Core API helpers:
 
 Default implementation behavior for AI coding agents:
 
-1. Report that `@glosign/sdk` was installed and that the project needs Node.js 18+ ESM or dynamic import.
+1. Report that `@glosign/sdk` was installed and that the project needs Node.js 18+.
 2. Explain available first-cycle features: template lookup, one-signer remote send, contract status lookup, signer completion lookup, and completed PDF download.
 3. Guide the user to complete Glosign-side setup: business signup, API key issuance, and template creation.
 4. Ask for `GLOSIGN_API_KEY`, prepared `GLOSIGN_TEMPLATE_ID`, signer email, and contract title.

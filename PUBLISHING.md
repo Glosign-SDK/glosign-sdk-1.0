@@ -1,6 +1,6 @@
 # Publishing `@glosign/sdk`
 
-This repository is the standalone Glosign SDK package. `@glosign/sdk@0.1.0-beta.1` has been published to npm; future releases should keep package metadata, smoke checks, AI discovery files, and GitHub links aligned before publishing.
+This repository is the standalone Glosign SDK package. `@glosign/sdk@0.1.0-beta.2` has been published to npm; future releases should keep package metadata, smoke checks, AI discovery files, and GitHub links aligned before publishing.
 
 ## Required decisions
 
@@ -28,15 +28,23 @@ When ready to publish, update `package.json` with official values:
   "exports": {
     ".": {
       "types": "./index.d.ts",
-      "import": "./index.js"
+      "import": "./index.js",
+      "require": "./index.cjs"
     },
     "./client": {
       "types": "./client.d.ts",
-      "import": "./client.js"
+      "import": "./client.js",
+      "require": "./client.cjs"
     },
     "./heuristics": {
       "types": "./heuristics.d.ts",
-      "import": "./heuristics.js"
+      "import": "./heuristics.js",
+      "require": "./heuristics.cjs"
+    },
+    "./recipes": {
+      "types": "./recipes.d.ts",
+      "import": "./recipes.js",
+      "require": "./recipes.cjs"
     }
   },
   "bin": {
@@ -98,10 +106,16 @@ npm run smoke:check
 Confirm the package includes only:
 
 - `client.js`
+- `client.cjs`
 - `client.d.ts`
 - `heuristics.js`
+- `heuristics.cjs`
 - `heuristics.d.ts`
+- `recipes.js`
+- `recipes.cjs`
+- `recipes.d.ts`
 - `index.js`
+- `index.cjs`
 - `index.d.ts`
 - `bin/glosign-init.js`
 - `bin/glosign-templates.js`

@@ -24,6 +24,17 @@ const client = createGlosignClient({
 });
 ```
 
+CommonJS `server.js` usage is also supported. Do not convert an existing CommonJS server to ESM only to use this SDK:
+
+```js
+const { createGlosignClient } = require("@glosign/sdk/client");
+const { buildOneSignerRemoteSigningPayload } = require("@glosign/sdk/recipes");
+
+const client = createGlosignClient({
+  apiKey: process.env.GLOSIGN_API_KEY
+});
+```
+
 ## Default agent workflow
 
 When any AI coding agent installs this package, it should report the installed state and then work through one small complete signing cycle before adding advanced modes. This applies to Codex, Claude, Gemini, Cursor, and other vibe-coding agents.
@@ -32,7 +43,7 @@ For the exact task list and success criteria, use [FIRST_CYCLE.md](./FIRST_CYCLE
 
 The default first feature is **general remote signing with one email receiver**. This is the smallest useful production-like path:
 
-1. confirm `@glosign/sdk` is installed and Node.js 18+ ESM is available
+1. confirm `@glosign/sdk` is installed and Node.js 18+ is available
 2. guide the user to create a Glosign business account, issue an API key, and create a prepared template
 3. ask the user for `GLOSIGN_API_KEY` and a prepared `GLOSIGN_TEMPLATE_ID`
 4. list or inspect templates with `glosign-templates` or `client.getTemplate`

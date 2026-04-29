@@ -1,26 +1,31 @@
 {
   "name": "@glosign/sdk",
-  "version": "0.1.0-beta.2",
+  "version": "0.1.0-beta.3",
   "description": "Glosign JavaScript SDK for electronic signature, e-signature, digital contract, and signed PDF workflows",
   "type": "module",
-  "main": "./index.js",
+  "main": "./index.cjs",
+  "module": "./index.js",
   "types": "./index.d.ts",
   "exports": {
     ".": {
       "types": "./index.d.ts",
-      "import": "./index.js"
+      "import": "./index.js",
+      "require": "./index.cjs"
     },
     "./client": {
       "types": "./client.d.ts",
-      "import": "./client.js"
+      "import": "./client.js",
+      "require": "./client.cjs"
     },
     "./heuristics": {
       "types": "./heuristics.d.ts",
-      "import": "./heuristics.js"
+      "import": "./heuristics.js",
+      "require": "./heuristics.cjs"
     },
     "./recipes": {
       "types": "./recipes.d.ts",
-      "import": "./recipes.js"
+      "import": "./recipes.js",
+      "require": "./recipes.cjs"
     }
   },
   "bin": {
@@ -39,12 +44,16 @@
   },
   "files": [
     "client.js",
+    "client.cjs",
     "client.d.ts",
     "heuristics.js",
+    "heuristics.cjs",
     "heuristics.d.ts",
     "recipes.js",
+    "recipes.cjs",
     "recipes.d.ts",
     "index.js",
+    "index.cjs",
     "index.d.ts",
     "bin",
     "LICENSE",
