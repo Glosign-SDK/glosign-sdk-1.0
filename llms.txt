@@ -69,6 +69,8 @@ Required user actions outside the coding project:
 2. issue the REST API access token from settings/API management
 3. create a prepared template with at least one `sign` or `stamp` field
 
+Do not list Glosign support-enabled test mode as a required first action. The first smoke test can use the initial free real-send quota. Mention test mode only as an optional later request when the user wants API tests that do not deduct from that quota.
+
 Minimum first-cycle tasks:
 
 1. install `@glosign/sdk`

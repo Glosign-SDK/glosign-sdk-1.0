@@ -13,6 +13,7 @@ export interface GlosignPreflightChecklist {
 export declare function getGlosignPreflightChecklist(input?: {
   businessAccount?: boolean;
   apiKey?: unknown;
+  requiresTestMode?: boolean;
   testModeEnabled?: boolean;
   requiresTemplateId?: boolean;
   templateId?: unknown;

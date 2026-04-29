@@ -25,7 +25,9 @@ Before live sending, the user must complete three actions outside the coding pro
 2. issue a REST API access token from the Glosign settings/API menu
 3. create a prepared template with at least one signer field
 
-The AI coding agent should explicitly guide the user through these steps instead of trying to build a local signing engine.
+The AI coding agent should explicitly guide the user through these steps instead of trying to build a local signing engine. After the SDK is installed, tell the user to sign up, issue the API key, and send the API key/template ID back to the coding agent. While the user is doing that, tell them to create one simple template with one `sign` or `stamp` field.
+
+Do not include Glosign support-enabled test mode as a required first action. The first smoke test should use the initial free real-send quota. If the user wants API tests that do not deduct from that quota, they can ask Glosign support to enable test mode later.
 
 Ask the user for these values after those actions are complete:
 

@@ -11,13 +11,16 @@ function getGlosignPreflightChecklist(input = {}) {
       key: "apiKey",
       label: "Issued API key provided",
       ok: Boolean(input.apiKey)
-    },
-    {
-      key: "testModeEnabled",
-      label: "Account is confirmed as test-mode enabled",
-      ok: Boolean(input.testModeEnabled)
     }
   ];
+
+  if (input.requiresTestMode) {
+    items.push({
+      key: "testModeEnabled",
+      label: "Optional non-deducting test mode confirmed",
+      ok: Boolean(input.testModeEnabled)
+    });
+  }
 
   if (input.requiresTemplateId) {
     items.push({
@@ -54,7 +57,7 @@ function getGlosignPreflightChecklist(input = {}) {
   return {
     ready: items.every((item) => item.ok),
     items,
-    note: "Do not assume separate test and production keys unless official Glosign docs confirm that model."
+    note: "Test mode is optional. For the first live smoke test, guide the user to use Glosign's free initial send quota; request test mode only when sends should not deduct from that quota."
   };
 }
 

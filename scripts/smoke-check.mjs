@@ -171,7 +171,6 @@ async function main() {
   const checklist = getGlosignPreflightChecklist({
     businessAccount: true,
     apiKey: process.env.GLOSIGN_API_KEY,
-    testModeEnabled: process.env.GLOSIGN_TEST_MODE_ENABLED === "true",
     requiresTemplateId: live,
     templateId: process.env.GLOSIGN_TEMPLATE_ID
   });

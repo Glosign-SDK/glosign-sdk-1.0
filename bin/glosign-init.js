@@ -17,7 +17,7 @@ Options:
 Notes:
   - This generates a project-local Glosign starter wrapper.
   - @glosign/sdk is published on npm as a beta package.
-  - Ask the user for a Glosign business account, issued REST API Access token, and test-mode confirmation before coding.
+  - Ask the user for a Glosign business account, issued REST API Access token, and prepared template before live sending.
 `);
 }
 
@@ -69,7 +69,6 @@ function writeFile(targetPath, content, force) {
 
 function buildEnvExample() {
   return `GLOSIGN_API_KEY=replace-with-issued-rest-api-access-token
-GLOSIGN_TEST_MODE_ENABLED=true
 GLOSIGN_BASE_URL=https://api.glosign.com/v1
 GLOSIGN_V2_BASE_URL=https://api.glosign.com/v2
 GLOSIGN_V1_9_BASE_URL=https://api.glosign.com/v1-9
@@ -102,11 +101,6 @@ function buildClientModule() {
       label: "Issued API key provided",
       ok: Boolean(input.apiKey)
     },
-    {
-      key: "testModeEnabled",
-      label: "Account is confirmed as test-mode enabled",
-      ok: Boolean(input.testModeEnabled)
-    }
   ];
 
   return {
@@ -146,7 +140,6 @@ export function createProjectGlosignClient() {
   const checklist = getGlosignPreflightChecklist({
     businessAccount: true,
     apiKey: process.env.GLOSIGN_API_KEY,
-    testModeEnabled: process.env.GLOSIGN_TEST_MODE_ENABLED === "true"
   });
 
   if (!checklist.ready) {
@@ -262,12 +255,10 @@ Before implementation, confirm:
 
 1. Glosign business account is created
 2. REST API Access token is issued
-3. Glosign support switched the account to test mode
+3. A prepared template is created with at least one sign or stamp field
 4. Required IDs such as template ID, client ID, or company code are available
 
-Do not assume separate test and production keys unless official Glosign docs confirm that model.
-
-Set \`GLOSIGN_TEST_MODE_ENABLED=true\` only after the user confirms that the issued key is working in test mode.
+Do not require Glosign support-enabled test mode for the first implementation. The first smoke test can use Glosign's initial free real-send quota. Ask for test mode later only when the user wants API calls that do not deduct from that quota.
 
 ## Default first cycle
 

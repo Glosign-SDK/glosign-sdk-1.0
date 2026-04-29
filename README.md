@@ -69,6 +69,8 @@ Required user actions outside the coding project:
 2. go to settings and issue the REST API access token
 3. create a prepared template with at least one `sign` or `stamp` field
 
+Do not tell the user that support-enabled test mode is required for the first implementation. Glosign provides an initial free send quota for real send testing. If the user wants API tests that do not deduct from that quota, then they can ask Glosign support to enable test mode later.
+
 Minimum first-cycle tasks:
 
 1. install `@glosign/sdk`
@@ -134,9 +136,11 @@ Before implementation, confirm:
 
 1. Glosign business account exists
 2. API key was issued
-3. Glosign support switched the account to test mode
+3. A prepared template exists
 4. Required IDs such as `templateId`, `clientId`, or `companyCode` are available
 5. The prepared template has at least one `sign` or `stamp` field before send
+
+Test mode is optional. The first smoke test can use the free initial real-send quota. Ask for test mode only when the user wants API calls not to deduct from that quota.
 
 Do not assume separate test and production keys unless official Glosign docs confirm that model.
 
@@ -157,7 +161,6 @@ import { getGlosignPreflightChecklist } from "@glosign/sdk/heuristics";
 const checklist = getGlosignPreflightChecklist({
   businessAccount: true,
   apiKey: process.env.GLOSIGN_API_KEY,
-  testModeEnabled: true,
   requiresTemplateId: true,
   templateId: process.env.GLOSIGN_TEMPLATE_ID
 });

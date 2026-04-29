@@ -51,6 +51,8 @@ The first external-user objective is to make the user complete these Glosign-sid
 2. issue the REST API access token from Glosign settings/API management
 3. create a prepared template with at least one `sign` or `stamp` field
 
+Do not tell the user that Glosign support must enable test mode before the first implementation. The first smoke test can use the initial free real-send quota. Mention support-enabled test mode only as an optional later step when the user wants API tests that do not deduct from that quota.
+
 The first cycle is successful only after the completed signed PDF is retrieved. A successful send response is not enough.
 
 After that success, expand in this order:
@@ -222,7 +224,6 @@ Before live sending, ask the developer to confirm:
 
 - Glosign business account access
 - REST API access token
-- test-mode enablement if needed
 - prepared template ID
 - signer email or mobile delivery details
 

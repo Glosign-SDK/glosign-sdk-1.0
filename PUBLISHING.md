@@ -133,8 +133,8 @@ Confirm the package includes only:
 
 ## Beta release checklist
 
-1. Confirm test-mode API key works with `GET /user`.
-2. Confirm at least one template send flow works.
+1. Confirm the issued API key works with `GET /user`.
+2. Confirm at least one template send flow works. The first smoke test can use the initial free real-send quota; support-enabled test mode is optional when sends should not deduct from that quota.
 3. Confirm link contract flow works if it is in the README.
 4. Confirm binary permissions for `bin/glosign-init.js`.
 5. Run `npm pack --dry-run`.
