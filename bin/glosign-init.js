@@ -17,7 +17,8 @@ Options:
 Notes:
   - This generates a project-local Glosign starter wrapper.
   - @glosign/sdk is published on npm as a beta package.
-  - Ask the user for a Glosign business account, issued REST API Access token, and prepared template before live sending.
+  - Ask the user to create a business account, issue an API token, and create one template.
+  - The coding agent should create the env file and discover the template ID by API lookup.
 `);
 }
 
@@ -67,12 +68,20 @@ function writeFile(targetPath, content, force) {
   fs.writeFileSync(targetPath, content, "utf8");
 }
 
+function writeFileIfMissing(targetPath, content, force) {
+  if (fs.existsSync(targetPath) && !force) {
+    return false;
+  }
+  fs.writeFileSync(targetPath, content, "utf8");
+  return true;
+}
+
 function buildEnvExample() {
   return `GLOSIGN_API_KEY=replace-with-issued-rest-api-access-token
 GLOSIGN_BASE_URL=https://api.glosign.com/v1
 GLOSIGN_V2_BASE_URL=https://api.glosign.com/v2
 GLOSIGN_V1_9_BASE_URL=https://api.glosign.com/v1-9
-GLOSIGN_TEMPLATE_ID=replace-if-needed
+GLOSIGN_TEMPLATE_ID=
 GLOSIGN_TEMPLATE_FILE=examples/assets/glosign-smoke-test-contract.pdf
 GLOSIGN_TEMPLATE_TITLE=Glosign API smoke test
 GLOSIGN_CLIENT_ID=replace-if-needed
@@ -185,6 +194,19 @@ export function createProjectGlosignClient() {
     getContract(contractId) {
       return request({ routePath: "/contract", query: { id: contractId } });
     },
+    listTemplates(params = {}) {
+      return request({ routePath: "/template/list", query: params });
+    },
+    getTemplate(templateId, params = {}) {
+      return request({
+        routePath: "/template",
+        query: {
+          id: templateId,
+          clientid: params.clientId,
+          clientId: params.clientId
+        }
+      });
+    },
     sendTemplateContract(body) {
       return request({ routePath: "/template/send", method: "POST", body });
     },
@@ -236,6 +258,8 @@ After installing \`@glosign/sdk\`, report these facts to the user before coding:
 - the SDK is installed and supports Node.js 18+ ESM and CommonJS
 - the first supported implementation is one-signer general remote signing by email
 - the user must complete Glosign business signup, API key issuance, and template creation
+- the coding agent creates or updates the local env file; do not ask the user to copy env files
+- the coding agent discovers the template ID by API lookup; do not ask the user to find it manually
 - Glosign handles signer notification, hosted signing, completion storage, and completed-file retrieval
 - the app should first implement send, status check, signer completion check, and completed PDF download
 
@@ -245,9 +269,12 @@ Create a Todo list and finish 1A live send test before adding two-signers, mobil
 
 The user must do these outside the coding project:
 
-1. Sign up as a Glosign business account.
-2. Issue a REST API access token from the Glosign settings/API menu.
-3. Create a prepared template with at least one \`sign\` or \`stamp\` field.
+1. Sign up as a Glosign business account at \`https://www.glosign.com/\`.
+2. Select the business-member signup type. Business registration number verification is not required for this first setup.
+3. Issue a REST API access token directly from \`기업설정 > API 관리\`: \`https://admin.glosign.com/token/api\`.
+4. Create a prepared template at \`https://glosign.com/templates/upload\` with at least one \`sign\` or \`stamp\` field.
+
+Use the actual menu name in user instructions: \`기업설정 > API 관리\`.
 
 ## Access checklist
 
@@ -256,7 +283,7 @@ Before implementation, confirm:
 1. Glosign business account is created
 2. REST API Access token is issued
 3. A prepared template is created with at least one sign or stamp field
-4. Required IDs such as template ID, client ID, or company code are available
+4. The SDK or CLI can discover the template ID after the API key is available
 
 Do not require Glosign support-enabled test mode for the first implementation. The first smoke test can use Glosign's initial free real-send quota. Ask for test mode later only when the user wants API calls that do not deduct from that quota.
 
@@ -266,8 +293,10 @@ Once the user provides \`GLOSIGN_API_KEY\`, respond in this order:
 
 1. Say that the app can now connect to Glosign.
 2. Say: "If a template already exists, I will list or inspect it and use it."
-3. Ask for exactly one signer email address for the first live send test.
-4. Prioritize 1A live send test above all other work.
+3. Create or update the local env file yourself.
+4. Run template lookup and set \`GLOSIGN_TEMPLATE_ID\` from the API response.
+5. Ask for exactly one signer email address for the first live send test.
+6. Prioritize 1A live send test above all other work.
 
 ## 1A live send test
 
@@ -319,11 +348,16 @@ function run() {
   }
 
   ensureDir(args.dir);
-  writeFile(path.join(args.dir, ".env.example"), buildEnvExample(), args.force);
+  const envContent = buildEnvExample();
+  const wroteEnv = writeFileIfMissing(path.join(args.dir, ".env"), envContent, args.force);
+  writeFile(path.join(args.dir, ".env.example"), envContent, args.force);
   writeFile(path.join(args.dir, "glosign.client.mjs"), buildClientModule(), args.force);
   writeFile(path.join(args.dir, "README.glosign.md"), buildReadme(), args.force);
 
   console.log(`Generated Glosign starter files in ${args.dir}`);
+  if (!wroteEnv) {
+    console.log("Skipped existing .env. Update it with GLOSIGN_API_KEY and discovered GLOSIGN_TEMPLATE_ID.");
+  }
 }
 
 try {

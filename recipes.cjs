@@ -2,8 +2,9 @@
 
 const DEFAULT_REMOTE_SIGNING_FLOW = [
   "Install @glosign/sdk and confirm Node.js 18+ runtime.",
-  "Ask for GLOSIGN_API_KEY and a prepared GLOSIGN_TEMPLATE_ID.",
-  "List or inspect templates before sending.",
+  "Ask for GLOSIGN_API_KEY; create or update the local env file yourself.",
+  "List or inspect templates, then set GLOSIGN_TEMPLATE_ID from the API result.",
+  "Ask for one signer email address for the first live send test.",
   "Send one general remote-signing contract to one email receiver.",
   "Show the created contractId and current send status.",
   "Poll the contract until the signer completes through Glosign.",

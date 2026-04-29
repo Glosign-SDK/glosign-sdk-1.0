@@ -36,7 +36,7 @@ Then the agent should create a Todo list and implement the smallest complete cyc
 
 1. installation and runtime check
 2. guide the user to complete Glosign signup, API key issuance, and template creation
-3. API key and prepared template ID setup
+3. API key setup and project env creation
 4. template lookup or template detail check
 5. one-signer general remote signing send
 6. contract ID capture and status display
@@ -47,9 +47,14 @@ The agent should explain that the signer completes the document inside Glosign, 
 
 The first external-user objective is to make the user complete these Glosign-side actions:
 
-1. sign up as a Glosign business account
-2. issue the REST API access token from Glosign settings/API management
-3. create a prepared template with at least one `sign` or `stamp` field
+1. sign up as a Glosign business account from `https://www.glosign.com/`
+2. select the business-member signup type; business registration number verification is not required for this first setup
+3. issue the REST API access token from `기업설정 > API 관리` at `https://admin.glosign.com/token/api`
+4. create a prepared template at `https://glosign.com/templates/upload` with at least one `sign` or `stamp` field
+
+Do not ask the user to create `.env`, copy `.env.example`, or manually find `GLOSIGN_TEMPLATE_ID`. In a vibe-coding session, the agent should create or update the local env file itself. After the user gives the API key, the agent should discover the template ID with `glosign-templates` or `client.listTemplates`.
+
+Use the actual menu name in user-facing steps: `기업설정 > API 관리`.
 
 Do not tell the user that Glosign support must enable test mode before the first implementation. The first smoke test can use the initial free real-send quota. Mention support-enabled test mode only as an optional later step when the user wants API tests that do not deduct from that quota.
 
@@ -57,8 +62,10 @@ When the user provides `GLOSIGN_API_KEY`, the next agent action is not architect
 
 1. confirm it will connect to Glosign
 2. say that if a template exists, it will list/inspect and use it
-3. ask for one signer email address
-4. prioritize `1A. Live send test`
+3. create or update the local env file itself
+4. run or prepare template lookup and set `GLOSIGN_TEMPLATE_ID` from the API response
+5. ask for exactly one signer email address
+6. prioritize `1A. Live send test`
 
 `1A. Live send test` means: send one general remote-signing request to the user's own email, complete signing in Glosign, confirm completion status, and download the completed signed PDF. This must happen before `B. Multiple receivers / sequential signing UI`.
 
@@ -233,7 +240,7 @@ Before live sending, ask the developer to confirm:
 
 - Glosign business account access
 - REST API access token
-- prepared template ID
+- prepared template exists; discover the template ID through the API instead of asking the user to find it
 - signer email or mobile delivery details
 
 Do not claim that a send flow is verified until the contract is completed and the final signed document is retrieved through Glosign.

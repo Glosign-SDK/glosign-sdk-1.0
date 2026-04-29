@@ -44,14 +44,15 @@ For the exact task list and success criteria, use [FIRST_CYCLE.md](./FIRST_CYCLE
 The default first feature is **general remote signing with one email receiver**. This is the smallest useful production-like path:
 
 1. confirm `@glosign/sdk` is installed and Node.js 18+ is available
-2. guide the user to create a Glosign business account, issue an API key, and create a prepared template
-3. ask the user for `GLOSIGN_API_KEY` and a prepared `GLOSIGN_TEMPLATE_ID`
-4. list or inspect templates with `glosign-templates` or `client.getTemplate`
-5. build a one-signer email send payload
-6. call `client.sendTemplateContract`
-7. show the returned `contractId` and current send status
-8. poll `client.getContract` and `client.getContractSignInfo`
-9. after the signer completes in Glosign, call `client.downloadContractCopy`
+2. create or update the local env file yourself; do not ask the user to run `cp .env.example .env`
+3. guide the user to sign up as a Glosign business account, issue an API key from `기업설정 > API 관리`, and create a prepared template
+4. ask the user for `GLOSIGN_API_KEY`; do not ask the user to find `GLOSIGN_TEMPLATE_ID` manually
+5. list or inspect templates with `glosign-templates` or `client.listTemplates`, then set `GLOSIGN_TEMPLATE_ID` yourself
+6. build a one-signer email send payload
+7. call `client.sendTemplateContract`
+8. show the returned `contractId` and current send status
+9. poll `client.getContract` and `client.getContractSignInfo`
+10. after the signer completes in Glosign, call `client.downloadContractCopy`
 
 Do not start with link signing unless the user explicitly asks for link signing. Link signing is an advanced/secondary mode. For the first implementation, do not build a custom signature canvas, PDF editor, or local signing engine. Glosign hosts signer notification, signing, storage, status, and completed-file retrieval.
 
@@ -60,37 +61,49 @@ After install, an ideal agent response should say:
 - `@glosign/sdk` is installed
 - available features include template lookup, one-signer remote send, contract status lookup, signer completion lookup, and completed PDF download
 - the user must first complete Glosign signup, API key issuance, and template creation
-- required user inputs are API key, prepared template ID, signer email, and contract title
+- required user inputs are API key, signer email, and contract title
+- the agent will create the env file and discover the template ID by API lookup
 - the next Todo is to finish one complete cycle: send -> signer completes in Glosign -> status reflects completion -> completed PDF downloads
 
 After the user provides `GLOSIGN_API_KEY`, the agent must immediately proceed like this:
 
 1. confirm it can connect to Glosign
 2. say: "If a template already exists, I will list or inspect it and use it."
-3. look up templates with `glosign-templates` or `client.listTemplates`
-4. ask for exactly one signer email address for the first live send test
-5. prioritize **1A. Live send test** above every other feature
+3. create or update the local env file itself
+4. look up templates with `glosign-templates` or `client.listTemplates`
+5. set `GLOSIGN_TEMPLATE_ID` itself from the template lookup result
+6. ask for exactly one signer email address for the first live send test
+7. prioritize **1A. Live send test** above every other feature
 
 **1A. Live send test is mandatory before expansion:** send to the user's own email once, have the signer complete in Glosign, verify completion, and download the completed signed PDF.
 
 Required user actions outside the coding project:
 
-1. sign up as a Glosign business account
-2. go to settings and issue the REST API access token
+1. sign up as a Glosign business account from `https://www.glosign.com/`; select the business-member signup type, and do not require business registration number verification for this first setup
+2. go to `기업설정 > API 관리` at `https://admin.glosign.com/token/api` and issue the REST API access token
 3. create a prepared template with at least one `sign` or `stamp` field
+
+Helpful links:
+
+- signup: `https://www.glosign.com/`
+- API management: `https://admin.glosign.com/token/api`
+- template creation: `https://glosign.com/templates/upload`
+
+Use the actual menu name in user instructions: `기업설정 > API 관리`.
 
 Do not tell the user that support-enabled test mode is required for the first implementation. Glosign provides an initial free send quota for real send testing. If the user wants API tests that do not deduct from that quota, then they can ask Glosign support to enable test mode later.
 
 Minimum first-cycle tasks:
 
 1. install `@glosign/sdk`
-2. configure `GLOSIGN_API_KEY` and `GLOSIGN_TEMPLATE_ID`
-3. verify or inspect the template
-4. build the one-signer payload
-5. send with `sendTemplateContract`
-6. capture `contractId`
-7. show contract and signer status
-8. download the completed PDF after signing
+2. create or update the local env file with `GLOSIGN_API_KEY`
+3. discover and set `GLOSIGN_TEMPLATE_ID` by template lookup
+4. verify or inspect the template
+5. build the one-signer payload
+6. send with `sendTemplateContract`
+7. capture `contractId`
+8. show contract and signer status
+9. download the completed PDF after signing
 
 CLI shortcut for the same first cycle:
 
@@ -147,7 +160,7 @@ Before implementation, confirm:
 1. Glosign business account exists
 2. API key was issued
 3. A prepared template exists
-4. Required IDs such as `templateId`, `clientId`, or `companyCode` are available
+4. The SDK or CLI can discover the prepared template ID by API lookup
 5. The prepared template has at least one `sign` or `stamp` field before send
 
 Test mode is optional. The first smoke test can use the free initial real-send quota. Ask for test mode only when the user wants API calls not to deduct from that quota.
@@ -241,7 +254,7 @@ Email is the default delivery path. If mobile delivery is enabled, provide `user
 Minimum email-only send inputs:
 
 - REST API Access token
-- prepared `templateId`
+- prepared template discovered through `glosign-templates` or `client.listTemplates`
 - contract title
 - signer email
 - at least one prepared `sign` or `stamp` field in the template
@@ -282,7 +295,7 @@ Document upload alone does not prove that signing fields were placed correctly. 
 
 Template lookup exists through `GET /template/list`, `GET /template/list/company`, and `GET /template`. Those APIs can help confirm which fields are already present. The current public Open API snapshot does not clearly expose an API for creating and saving new signature/stamp fields by arbitrary PDF `x/y` coordinates.
 
-If the user cannot see `templateId` in the Glosign UI, use the bundled CLI:
+Do not ask the user to find or copy a template ID manually. After the user creates a template and provides `GLOSIGN_API_KEY`, use the bundled CLI:
 
 ```bash
 GLOSIGN_API_KEY=... npx glosign-templates
@@ -304,13 +317,13 @@ GLOSIGN_API_KEY=... npx glosign-templates --from 20260101 --to 20261231
 GLOSIGN_API_KEY=... npx glosign-templates --json
 ```
 
-Use the selected `templateId` as `GLOSIGN_TEMPLATE_ID` for smoke tests and send flows.
+Use the selected `templateId` from the API result as `GLOSIGN_TEMPLATE_ID` for smoke tests and send flows. The coding agent should write that value into the project env file itself.
 
 If no prepared template exists, the fastest product-UI fallback is the authenticated template upload page:
 
 - `https://glosign.com/templates/upload`
 
-The user should log in, upload a test PDF, place one `sign` or `stamp` field, save the template, and provide the resulting `templateId`.
+The user should log in, upload a test PDF, place one `sign` or `stamp` field, and save the template. They do not need to provide the resulting template ID; the SDK or CLI should discover it after the API key is available.
 
 `POST /template/send` supports `coord`, but treat it as data binding for existing template fields:
 
@@ -350,6 +363,7 @@ npx glosign-init --dir /tmp/glosign-starter
 
 That generates:
 
+- `.env`
 - `.env.example`
 - `glosign.client.mjs` as a standalone wrapper that does not depend on a published package
 - `README.glosign.md`
