@@ -154,25 +154,30 @@ console.log(user);
 
 Do not commit npm access tokens, browser session data, `.npmrc`, shell history, screenshots, or copied token values.
 
+`@glosign/sdk` must be published with npm access that has permission for the `@glosign` scope. A personal-account token without the correct npm organization/scope access is not enough.
+
 Current publishing path:
 
 1. Open npm in the browser and confirm the account is signed in.
 2. If CLI publish fails with `E401 Unauthorized`, run `npm login` or generate a granular access token in npm.
 3. The browser token page is `https://www.npmjs.com/settings/<npm-username>/tokens`.
-4. Use a token with publish rights for `@glosign/sdk`.
-5. Confirm CLI auth with:
+4. When generating a granular token, explicitly select the correct npm organization/scope for Glosign.
+5. Grant package read/write access for `@glosign/sdk` or the `@glosign` scope.
+6. Do not use a token that only targets the personal account if the package is intended to be owned by the Glosign npm organization.
+7. Confirm CLI auth with:
 
 ```bash
 npm whoami
 ```
 
-6. Confirm the current published version before publishing:
+8. Confirm package ownership and the current published version before publishing:
 
 ```bash
+npm owner ls @glosign/sdk
 npm view @glosign/sdk version dist-tags --json
 ```
 
-7. Publish the next beta:
+9. Publish the next beta:
 
 ```bash
 npm publish --access public --tag beta
@@ -183,6 +188,7 @@ Observed failure pattern:
 - `npm whoami` returned `E401 Unauthorized`
 - `npm publish --access public --tag beta` completed local checks but failed before publishing
 - the package remained at `@glosign/sdk@0.1.0-beta.1`
+- `npm view @glosign/sdk maintainers --json` showed personal-account ownership only; verify this against the intended Glosign npm organization setup before the next publish attempt
 
 When using a token non-interactively, set it only in the shell environment for the publish command and do not write it into project files.
 
