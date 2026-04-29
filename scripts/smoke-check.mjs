@@ -2,6 +2,7 @@
 
 import { createGlosignClient, defaults } from "../index.js";
 import { getGlosignPreflightChecklist } from "../heuristics.js";
+import { buildOneSignerRemoteSigningPayload } from "../recipes.js";
 
 function getArgFlag(name) {
   return process.argv.includes(name);
@@ -215,31 +216,13 @@ async function main() {
   console.log("- getTemplate: ok");
   console.log(`  ${extractText(summarizeTemplate(template) ?? template).slice(0, 500)}`);
 
-  const sendPayload = {
+  const sendPayload = buildOneSignerRemoteSigningPayload({
     templateId,
     contractName,
-    commonMessage: "Please review and sign.",
-    emailFlag: true,
-    mobileFlag: false,
-    contractList: [
-      {
-        signOrder: false,
-        isReview: false,
-        contractName,
-        receiverList: [
-          {
-            signOrderNumber: 1,
-            name: signerName,
-            email: signerEmail,
-            lang: "kr",
-            expired_day: 1,
-            message: "Please review and sign.",
-            coord: []
-          }
-        ]
-      }
-    ]
-  };
+    signerName,
+    signerEmail,
+    message: "Please review and sign."
+  });
 
   const sendResponse = await client.sendTemplateContract(sendPayload);
   console.log("- sendTemplateContract: ok");

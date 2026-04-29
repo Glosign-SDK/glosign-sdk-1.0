@@ -236,6 +236,26 @@ export function createProjectGlosignClient() {
 function buildReadme() {
   return `# Glosign Starter
 
+## Installation report for coding agents
+
+After installing \`@glosign/sdk\`, report these facts to the user before coding:
+
+- the SDK is installed and requires Node.js 18+ ESM or dynamic import
+- the first supported implementation is one-signer general remote signing by email
+- the user must complete Glosign business signup, API key issuance, and template creation
+- Glosign handles signer notification, hosted signing, completion storage, and completed-file retrieval
+- the app should first implement send, status check, signer completion check, and completed PDF download
+
+Create a Todo list and finish one complete cycle before adding two-signers, mobile delivery, link signing, or template creation.
+
+## Required Glosign-side setup
+
+The user must do these outside the coding project:
+
+1. Sign up as a Glosign business account.
+2. Issue a REST API access token from the Glosign settings/API menu.
+3. Create a prepared template with at least one \`sign\` or \`stamp\` field.
+
 ## Access checklist
 
 Before implementation, confirm:
@@ -249,17 +269,22 @@ Do not assume separate test and production keys unless official Glosign docs con
 
 Set \`GLOSIGN_TEST_MODE_ENABLED=true\` only after the user confirms that the issued key is working in test mode.
 
-## Suggested first calls
+## Default first cycle
 
-1. Validate access with \`GET /user\`
-2. Use 일반 비대면서명 with one signer and email delivery for the first real send test
-3. Send a template-based contract with \`POST /template/send\`
-4. Inspect status with \`GET /contract\`
-5. Download the completed output with \`GET /docs/contract/download\`
+1. Validate access with \`GET /user\`.
+2. Find or confirm a prepared template with \`GET /template/list\` or \`GET /template\`.
+3. Use 일반 비대면서명 with one signer and email delivery.
+4. Send a template-based contract with \`POST /template/send\`.
+5. Show the returned contract ID and initial send status.
+6. Inspect status with \`GET /contract\`.
+7. Check signer completion with \`GET /contract/sign/info\`.
+8. After the signer completes in Glosign, download the completed output with \`GET /docs/contract/download\`.
 
 Email is required. Phone is required only when mobile delivery is enabled. Glosign mobile delivery defaults to KakaoTalk; SMS needs the exact Open API payload option confirmed before implementation.
 
 If a source document must be uploaded first, use \`POST /template/temp/create\`. The uploaded PDF still needs a Glosign signing field for each signer before a reliable send.
+
+Do not start with link signing unless the user explicitly asks for link signing. The first implementation should not include custom signature capture, PDF signing, or canvas signing.
 
 ## Example
 

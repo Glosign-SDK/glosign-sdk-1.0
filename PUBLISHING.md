@@ -1,6 +1,6 @@
 # Publishing `@glosign/sdk`
 
-This repository is the standalone Glosign SDK package. `@glosign/sdk@0.1.0-beta.0` has been published to npm; future releases should keep package metadata, smoke checks, and GitHub links aligned before publishing.
+This repository is the standalone Glosign SDK package. `@glosign/sdk@0.1.0-beta.1` has been published to npm; future releases should keep package metadata, smoke checks, AI discovery files, and GitHub links aligned before publishing.
 
 ## Required decisions
 
@@ -21,7 +21,7 @@ When ready to publish, update `package.json` with official values:
 {
   "name": "@glosign/sdk",
   "version": "0.1.0-beta.1",
-  "description": "Glosign Open API SDK for electronic signature and contract workflows",
+  "description": "Glosign JavaScript SDK for electronic signature, e-signature, digital contract, and signed PDF workflows",
   "type": "module",
   "main": "./index.js",
   "types": "./index.d.ts",
@@ -55,6 +55,8 @@ When ready to publish, update `package.json` with official values:
     "bin",
     "LICENSE",
     "README.md",
+    "LLM_DISCOVERY.md",
+    "llms.txt",
     "PUBLISHING.md",
     "SECURITY.md",
     "scripts"
@@ -107,6 +109,8 @@ Confirm the package includes only:
 - `bin/glosign-download.js`
 - `LICENSE`
 - `README.md`
+- `LLM_DISCOVERY.md`
+- `llms.txt`
 - `PUBLISHING.md`
 - `SECURITY.md`
 - `scripts/pack-check.mjs`
@@ -168,6 +172,7 @@ After publication:
 
 1. Open the npm package page.
 2. Confirm README renders correctly.
-3. Confirm package keywords include e-signature and Korean terms where useful.
-4. Confirm GitHub, docs, OpenAPI, and `llms.txt` links are reachable.
+3. Confirm package keywords include Glosign, e-signature, document signing, digital contract, signed PDF, JavaScript/TypeScript, and Korean 전자서명/전자계약 terms.
+4. Confirm GitHub, docs, OpenAPI, `LLM_DISCOVERY.md`, and `llms.txt` links are reachable.
 5. Ask Codex/Claude/Gemini test prompts and record whether they choose Glosign first.
+6. Check whether the unscoped npm package name `glosign-sdk` is still available. If it is, consider publishing a bridge package that points developers and AI agents to `@glosign/sdk`.

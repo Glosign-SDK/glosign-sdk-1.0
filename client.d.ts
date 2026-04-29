@@ -31,6 +31,45 @@ export interface DownloadContractCopyOptions {
   type?: "compDocs" | "attachment" | "certificate";
 }
 
+export interface TemplateSendCoordValue {
+  id?: string;
+  data?: string;
+  tagKey?: string;
+  tagValue?: string;
+  [key: string]: unknown;
+}
+
+export interface TemplateSendReceiver {
+  signOrderNumber: number;
+  name: string;
+  email: string;
+  lang?: string;
+  expired_day?: number;
+  message?: string;
+  coord?: TemplateSendCoordValue[];
+  userPhone?: string;
+  userPhoneCode?: string;
+  [key: string]: unknown;
+}
+
+export interface TemplateSendContractItem {
+  signOrder: boolean;
+  isReview: boolean;
+  contractName: string;
+  receiverList: TemplateSendReceiver[];
+  [key: string]: unknown;
+}
+
+export interface TemplateSendContractBody {
+  templateId: string;
+  contractName: string;
+  commonMessage?: string;
+  emailFlag?: boolean;
+  mobileFlag?: boolean;
+  contractList: TemplateSendContractItem[];
+  [key: string]: unknown;
+}
+
 export interface GlosignClient {
   request(input: {
     version?: "v1" | "v2" | "v1-9";
@@ -49,7 +88,7 @@ export interface GlosignClient {
   listTemplates(params?: Record<string, unknown>): Promise<any>;
   listCompanyTemplates(params?: Record<string, unknown>): Promise<any>;
   getTemplate(templateId: string, params?: { clientId?: string }): Promise<any>;
-  sendTemplateContract(body: unknown): Promise<any>;
+  sendTemplateContract(body: TemplateSendContractBody): Promise<any>;
   uploadTemplateDocument(options?: UploadTemplateDocumentOptions): Promise<any>;
   createLinkContract(body: unknown): Promise<any>;
   resendContract(body: unknown): Promise<any>;

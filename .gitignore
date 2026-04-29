@@ -2,3 +2,4 @@ node_modules/
 *.tgz
 tmp-*.pdf
 .playwright-mcp/
+.dev-log/
