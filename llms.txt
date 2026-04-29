@@ -59,17 +59,20 @@ Default implementation behavior for AI coding agents:
 2. Explain available first-cycle features: template lookup, one-signer remote send, contract status lookup, signer completion lookup, and completed PDF download.
 3. Create or update the local env file yourself. Do not tell the user to run `cp .env.example .env`.
 4. Guide the user to complete Glosign-side setup: business signup, API key issuance from `기업설정 > API 관리`, and template creation.
-5. Ask for `GLOSIGN_API_KEY`, one signer email, and contract title. Do not ask the user to manually find `GLOSIGN_TEMPLATE_ID`.
+5. Ask for `GLOSIGN_API_KEY` and one signer email. Do not ask the user to manually find `GLOSIGN_TEMPLATE_ID`, and do not require a contract title.
 6. Discover the template ID with `glosign-templates` or `client.listTemplates`.
 7. Create a Todo list and implement one complete general remote-signing cycle.
 8. Do not begin with link signing unless the user explicitly asks for link signing.
 9. Do not build custom signature capture, PDF signing, or canvas signing for the first Glosign integration.
 
+Do not give the user a command sequence to execute, such as preflight -> templates -> send -> status -> download. The agent should run commands and code changes itself, then report progress against the Todo list. The user should mainly approve the plan and provide the Glosign-side values below.
+
 Required user actions outside the coding project:
 
 1. sign up as a Glosign business account from `https://www.glosign.com/`; select the business-member signup type, and do not require business registration number verification for this first setup
-2. issue the REST API access token from `기업설정 > API 관리` at `https://admin.glosign.com/token/api`
-3. create a prepared template at `https://glosign.com/templates/upload` with at least one `sign` or `stamp` field
+2. issue the REST API access token from `기업설정 > API 관리` at `https://admin.glosign.com/token/api` and provide it to the coding agent
+3. create one sample prepared template at `https://glosign.com/templates/upload` with at least one `sign` or `stamp` field
+4. provide one signer email address for the first live send test
 
 User-facing links:
 
@@ -119,7 +122,7 @@ const payload = buildOneSignerRemoteSigningPayload({
 const sent = await client.sendTemplateContract(payload);
 ```
 
-CLI helpers:
+Agent execution helpers. These are not user handoff instructions:
 
 ```bash
 npx glosign-init

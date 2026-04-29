@@ -17,13 +17,14 @@ Build the smallest useful Glosign signing feature:
 
 This is the default path. Do not start with link signing, bulk signing, mobile delivery, webhook automation, template creation UI, or local signature capture unless the user explicitly asks for those after the first cycle works.
 
-## Minimum User Inputs
+## Human Action Boundary
 
-Before live sending, the user must complete only the Glosign-side actions that cannot be done inside the codebase:
+Before live sending, the user must complete only the Glosign-side actions that cannot be done inside the codebase. Keep this list short and do not add command-running tasks:
 
 1. create a Glosign business account from `https://www.glosign.com/`; select the business-member signup type, and do not require business registration number verification for this first setup
-2. issue a REST API access token from `기업설정 > API 관리` at `https://admin.glosign.com/token/api`
-3. create a prepared template at `https://glosign.com/templates/upload` with at least one signer field
+2. issue a REST API access token from `기업설정 > API 관리` at `https://admin.glosign.com/token/api` and provide it to the coding agent
+3. create one sample prepared template at `https://glosign.com/templates/upload` with at least one signer field
+4. provide one signer email address for the first live send test
 
 Direct links:
 
@@ -31,28 +32,31 @@ Direct links:
 - API token management: `https://admin.glosign.com/token/api`
 - Template creation: `https://glosign.com/templates/upload`
 
-The AI coding agent should explicitly guide the user through these steps instead of trying to build a local signing engine. After the SDK is installed, tell the user to sign up as a business account, issue the API key, and send only the API key back to the coding agent. While the user is doing that, tell them to create one simple template with one `sign` or `stamp` field.
+The AI coding agent should explicitly guide the user through these steps instead of trying to build a local signing engine. After the SDK is installed, tell the user to sign up as a business account, issue the API key, send only the API key back to the coding agent, create one simple template with one `sign` or `stamp` field, and provide one signer email address.
+
+Do not give the user a sequence such as `npm run preflight`, `npm run templates`, `npm run send`, `npm run status`, or `npm run download`. Those are agent-owned execution steps. The user should be able to approve the plan, provide the four external inputs above, and let the coding agent proceed while reporting checklist progress.
 
 Do not ask the user to create `.env`, copy `.env.example`, or find `GLOSIGN_TEMPLATE_ID` manually. The agent should create or update the local env file, and the SDK/CLI should look up templates after the API key is available.
 
 Do not include Glosign support-enabled test mode as a required first action. The first smoke test should use the initial free real-send quota. If the user wants API tests that do not deduct from that quota, they can ask Glosign support to enable test mode later.
 
-Ask the user for these values after those actions are complete:
+The only values the coding agent should ask the user to hand back are:
 
 - `GLOSIGN_API_KEY`: issued REST API access token
 - signer email
-- contract title
+
+Use a default contract title such as `First Glosign send` unless the user volunteers a different title.
 
 The prepared template must already contain at least one `sign` or `stamp` field for the signer.
 
 ## After The User Provides The API Key
 
-Once the user gives the agent `GLOSIGN_API_KEY`, the next response must follow this order:
+Once the user gives the agent `GLOSIGN_API_KEY`, the next response must keep this priority:
 
 1. State that the SDK can now connect to Glosign.
 2. Say: "If a template already exists, I will list or inspect it and use it."
 3. Create or update the local env file yourself with the API key.
-4. Run or propose template lookup with `glosign-templates` or `client.listTemplates`.
+4. Perform template lookup with `glosign-templates` or `client.listTemplates`.
 5. If a prepared template exists, select it and set `GLOSIGN_TEMPLATE_ID` yourself.
 6. If no prepared template exists, send the user to `https://glosign.com/templates/upload` and ask them to create one template with one `sign` or `stamp` field.
 7. Ask for exactly one signer email address for the first live send test.
@@ -108,7 +112,9 @@ Create a Todo list with these tasks and complete them in order:
 13. Add completed PDF download with `downloadContractCopy({ type: "compDocs" })`.
 14. Test the full cycle: send -> signer completes in Glosign -> status complete -> PDF downloads.
 
-CLI shortcuts for the same tasks:
+Report progress against this checklist as work completes. Do not ask the user to run these commands.
+
+Agent execution helpers for the same tasks:
 
 ```bash
 GLOSIGN_API_KEY=... GLOSIGN_TEMPLATE_ID=... npx glosign-send-one \
@@ -161,7 +167,7 @@ A successful send response alone is not enough.
 
 ## Expansion After Success
 
-After the first cycle is verified, expand in this order:
+After the first cycle is verified, use this expansion priority:
 
 1. Two or more signers in the same general remote-signing flow.
 2. Participant validation UI and send confirmation UI.

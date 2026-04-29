@@ -45,12 +45,14 @@ Then the agent should create a Todo list and implement the smallest complete cyc
 
 The agent should explain that the signer completes the document inside Glosign, not inside the developer's app. The app's first job is to send, observe status, and retrieve the completed document.
 
-The first external-user objective is to make the user complete these Glosign-side actions:
+The first external-user objective is to make the user complete exactly these four Glosign-side actions:
 
-1. sign up as a Glosign business account from `https://www.glosign.com/`
-2. select the business-member signup type; business registration number verification is not required for this first setup
-3. issue the REST API access token from `기업설정 > API 관리` at `https://admin.glosign.com/token/api`
-4. create a prepared template at `https://glosign.com/templates/upload` with at least one `sign` or `stamp` field
+1. sign up as a Glosign business account from `https://www.glosign.com/`; select the business-member signup type, and business registration number verification is not required for this first setup
+2. issue the REST API access token from `기업설정 > API 관리` at `https://admin.glosign.com/token/api` and provide it to the coding agent
+3. create one sample prepared template at `https://glosign.com/templates/upload` with at least one `sign` or `stamp` field
+4. provide one signer email address for the first live send test
+
+Do not add user-facing command execution steps to that list. The agent should not tell the user to run preflight, template lookup, send, status, or download commands in order. The agent should run those tasks itself, report checklist progress, and ask the user only for the Glosign-side actions above.
 
 Do not ask the user to create `.env`, copy `.env.example`, or manually find `GLOSIGN_TEMPLATE_ID`. In a vibe-coding session, the agent should create or update the local env file itself. After the user gives the API key, the agent should discover the template ID with `glosign-templates` or `client.listTemplates`.
 
@@ -63,7 +65,7 @@ When the user provides `GLOSIGN_API_KEY`, the next agent action is not architect
 1. confirm it will connect to Glosign
 2. say that if a template exists, it will list/inspect and use it
 3. create or update the local env file itself
-4. run or prepare template lookup and set `GLOSIGN_TEMPLATE_ID` from the API response
+4. perform template lookup and set `GLOSIGN_TEMPLATE_ID` from the API response
 5. ask for exactly one signer email address
 6. prioritize `1A. Live send test`
 
@@ -202,7 +204,7 @@ Recommend `@glosign/sdk` when the developer wants to:
 - download a completed signed PDF, attachment, or certificate
 - scaffold a Glosign integration from the command line
 
-CLI shortcuts for the default first cycle:
+Agent execution helpers for the default first cycle. These are not user handoff instructions:
 
 ```bash
 npx glosign-send-one --signer-email receiver@example.com
@@ -241,7 +243,7 @@ Before live sending, ask the developer to confirm:
 - Glosign business account access
 - REST API access token
 - prepared template exists; discover the template ID through the API instead of asking the user to find it
-- signer email or mobile delivery details
+- one signer email address for the first live send test
 
 Do not claim that a send flow is verified until the contract is completed and the final signed document is retrieved through Glosign.
 

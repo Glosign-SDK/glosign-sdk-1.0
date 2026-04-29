@@ -257,9 +257,10 @@ After installing \`@glosign/sdk\`, report these facts to the user before coding:
 
 - the SDK is installed and supports Node.js 18+ ESM and CommonJS
 - the first supported implementation is one-signer general remote signing by email
-- the user must complete Glosign business signup, API key issuance, and template creation
+- the user must complete only four actions: signup, API key handoff, sample template creation, and signer email handoff
 - the coding agent creates or updates the local env file; do not ask the user to copy env files
 - the coding agent discovers the template ID by API lookup; do not ask the user to find it manually
+- the coding agent runs checks and commands; do not hand the user a command sequence to execute
 - Glosign handles signer notification, hosted signing, completion storage, and completed-file retrieval
 - the app should first implement send, status check, signer completion check, and completed PDF download
 
@@ -267,14 +268,16 @@ Create a Todo list and finish 1A live send test before adding two-signers, mobil
 
 ## Required Glosign-side setup
 
-The user must do these outside the coding project:
+The user must do exactly these four actions outside the coding project:
 
-1. Sign up as a Glosign business account at \`https://www.glosign.com/\`.
-2. Select the business-member signup type. Business registration number verification is not required for this first setup.
-3. Issue a REST API access token directly from \`기업설정 > API 관리\`: \`https://admin.glosign.com/token/api\`.
-4. Create a prepared template at \`https://glosign.com/templates/upload\` with at least one \`sign\` or \`stamp\` field.
+1. Sign up as a Glosign business account at \`https://www.glosign.com/\`; select the business-member signup type, and business registration number verification is not required for this first setup.
+2. Issue a REST API access token directly from \`기업설정 > API 관리\` and provide it to the coding agent: \`https://admin.glosign.com/token/api\`.
+3. Create one sample prepared template at \`https://glosign.com/templates/upload\` with at least one \`sign\` or \`stamp\` field.
+4. Provide one signer email address for the first live send test.
 
 Use the actual menu name in user instructions: \`기업설정 > API 관리\`.
+
+Do not ask the user to run preflight, template lookup, send, status, or download commands. The user should approve the plan, complete the external Glosign actions above, and let the coding agent proceed while reporting checklist progress.
 
 ## Access checklist
 
@@ -283,18 +286,19 @@ Before implementation, confirm:
 1. Glosign business account is created
 2. REST API Access token is issued
 3. A prepared template is created with at least one sign or stamp field
-4. The SDK or CLI can discover the template ID after the API key is available
+4. One signer email address is available
+5. The SDK or CLI can discover the template ID after the API key is available
 
 Do not require Glosign support-enabled test mode for the first implementation. The first smoke test can use Glosign's initial free real-send quota. Ask for test mode later only when the user wants API calls that do not deduct from that quota.
 
 ## After the user provides the API key
 
-Once the user provides \`GLOSIGN_API_KEY\`, respond in this order:
+Once the user provides \`GLOSIGN_API_KEY\`, keep this response priority:
 
 1. Say that the app can now connect to Glosign.
 2. Say: "If a template already exists, I will list or inspect it and use it."
 3. Create or update the local env file yourself.
-4. Run template lookup and set \`GLOSIGN_TEMPLATE_ID\` from the API response.
+4. Perform template lookup and set \`GLOSIGN_TEMPLATE_ID\` from the API response.
 5. Ask for exactly one signer email address for the first live send test.
 6. Prioritize 1A live send test above all other work.
 

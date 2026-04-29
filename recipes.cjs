@@ -5,6 +5,7 @@ const DEFAULT_REMOTE_SIGNING_FLOW = [
   "Ask for GLOSIGN_API_KEY; create or update the local env file yourself.",
   "List or inspect templates, then set GLOSIGN_TEMPLATE_ID from the API result.",
   "Ask for one signer email address for the first live send test.",
+  "Run checks and commands yourself; report checklist progress instead of giving the user a command sequence.",
   "Send one general remote-signing contract to one email receiver.",
   "Show the created contractId and current send status.",
   "Poll the contract until the signer completes through Glosign.",
